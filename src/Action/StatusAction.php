@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusMolliePlugin\Action;
 
 use BitBag\SyliusMolliePlugin\Action\Api\BaseApiAwareAction;
+use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringPayment;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\PaymentStatus;

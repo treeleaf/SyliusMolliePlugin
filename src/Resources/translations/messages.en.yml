@@ -9,5 +9,8 @@ bitbag_sylius_mollie_plugin:
         consumer_name: Consumer name
         iban: IBAN
         cancel_subscription: Cancel subscription
+        initiate_recurring_payment: Initiate recurring payment
+        yes_choice: Yes
+        no_choice: No
     subscription:
         cancel: Subscription has been successfully canceled.

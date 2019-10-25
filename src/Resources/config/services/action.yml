@@ -39,6 +39,7 @@ services:
     bitbag_sylius_mollie_plugin.payum_action.api.create_customer:
         class: BitBag\SyliusMolliePlugin\Action\Api\CreateCustomerAction
         tags:
+            - { name: payum.action, factory: mollie, alias: payum.action.api.create_customer }
             - { name: payum.action, factory: mollie_subscription, alias: payum.action.api.create_customer }
 
     bitbag_sylius_mollie_plugin.payum_action.api.create_sepa_mandate:
@@ -57,6 +58,15 @@ services:
             - "@sylius.repository.order"
         tags:
             - { name: payum.action, factory: mollie_subscription, alias: payum.action.api.create_recurring_subscription }
+
+    bitbag_sylius_mollie_plugin.payum_action.api.create_recurring_payment:
+        class: BitBag\SyliusMolliePlugin\Action\Api\CreateRecurringPaymentAction
+        arguments:
+            - "@bitbag_sylius_mollie_plugin.factory.recurring_payment"
+            - "@bitbag_sylius_mollie_plugin.manager.recurring_payment"
+            - "@sylius.repository.order"
+        tags:
+            - { name: payum.action, factory: mollie, alias: payum.action.api.create_recurring_payment }
 
     bitbag_sylius_mollie_plugin.payum_action.state_machine.status_recurring_subscription:
         class: BitBag\SyliusMolliePlugin\Action\StateMachine\StatusRecurringSubscriptionAction

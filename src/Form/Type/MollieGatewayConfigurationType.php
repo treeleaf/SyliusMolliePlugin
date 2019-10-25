@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusMolliePlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -46,6 +47,14 @@ final class MollieGatewayConfigurationType extends AbstractType
                         'groups' => ['sylius'],
                         'min' => 35,
                     ]),
+                ],
+            ])
+            ->add('initiate_recurring_payment', ChoiceType::class, [
+                'label' => 'bitbag_sylius_mollie_plugin.ui.initiate_recurring_payment',
+                'required' => true,
+                'choices' => [
+                    'bitbag_sylius_mollie_plugin.ui.no_choice' => 'no',
+                    'bitbag_sylius_mollie_plugin.ui.yes_choice' => 'yes',
                 ],
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

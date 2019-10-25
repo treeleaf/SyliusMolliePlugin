@@ -50,6 +50,10 @@ final class MollieGatewayFactory extends GatewayFactory
 
                 $mollieApiClient->setApiKey($config['api_key']);
 
+                if (isset($config['initiate_recurring_payment'])) {
+                    $mollieApiClient->setInitiateRecurringPayment($config['initiate_recurring_payment'] === 'yes');
+                }
+
                 return $mollieApiClient;
             };
         }

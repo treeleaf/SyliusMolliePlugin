@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace BitBag\SyliusMolliePlugin\Action;
 
 use BitBag\SyliusMolliePlugin\Action\Api\BaseApiAwareAction;
+use BitBag\SyliusMolliePlugin\Request\Api\CreateCustomer;
+use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringPayment;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringSubscription;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateSepaMandate;
 use Mollie\Api\Resources\Payment;
@@ -95,13 +97,27 @@ final class CaptureAction extends BaseApiAwareAction implements ActionInterface,
             $details['metadata'] = $metadata;
 
             /** @var Payment $payment */
-            $payment = $this->mollieApiClient->payments->create([
+            $clientRequest = [
                 'amount' => $details['amount'],
                 'description' => $details['description'],
                 'redirectUrl' => $token->getTargetUrl(),
                 'webhookUrl' => $details['webhookUrl'],
                 'metadata' => $details['metadata'],
-            ]);
+            ];
+
+            if ($this->mollieApiClient->initiateRecurringPayment()) {
+                $this->gateway->execute(new CreateCustomer($details));
+
+                if (isset($details['customer_mollie_id'])) {
+                    $details['initiate_recurring_payment'] = true;
+                    $clientRequest['sequenceType'] = 'first';
+                    $clientRequest['customerId'] = $details['customer_mollie_id'];
+
+                    $this->gateway->execute(new CreateRecurringPayment($details));
+                }
+            }
+
+            $payment = $this->mollieApiClient->payments->create($clientRequest);
 
             $details['payment_mollie_id'] = $payment->id;
 

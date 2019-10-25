@@ -27,6 +27,11 @@ class MollieApiClient extends \Mollie\Api\MollieApiClient
     protected $isRecurringSubscription = false;
 
     /**
+     * @var bool
+     */
+    protected $initiateRecurringPayment = false;
+
+    /**
      * @param array $config
      */
     public function setConfig(array $config): void
@@ -70,5 +75,21 @@ class MollieApiClient extends \Mollie\Api\MollieApiClient
         }
 
         return $payment->amount->value === $payment->amountRefunded->value;
+    }
+
+    /**
+     * @return bool
+     */
+    public function initiateRecurringPayment(): bool
+    {
+        return $this->initiateRecurringPayment;
+    }
+
+    /**
+     * @param bool $initiateRecurringPayment
+     */
+    public function setInitiateRecurringPayment(bool $initiateRecurringPayment): void
+    {
+        $this->initiateRecurringPayment = $initiateRecurringPayment;
     }
 }

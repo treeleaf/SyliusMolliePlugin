@@ -6,6 +6,7 @@ imports:
 twig:
     globals:
         subscription_mollie_repository: "@bitbag_sylius_mollie_plugin.repository.subscription"
+        recurring_payment_mollie_repository: "@bitbag_sylius_mollie_plugin.repository.recurring_payment"
 
 sylius_grid:
     templates:
