@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMolliePlugin\Entity;
 
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface RecurringPaymentInterface extends ResourceInterface
@@ -22,24 +22,24 @@ interface RecurringPaymentInterface extends ResourceInterface
     const STATE_UNKNOWN = 'unknown';
 
     /**
-     * @return OrderInterface
+     * @return CustomerInterface|null
      */
-    public function getOrder(): OrderInterface;
+    public function getCustomer(): ?CustomerInterface;
 
     /**
-     * @param OrderInterface $order
+     * @param CustomerInterface|null $customer
      */
-    public function setOrder(OrderInterface $order): void;
+    public function setCustomer(?CustomerInterface $customer): void;
 
     /**
      * @return string|null
      */
-    public function getCustomerId(): ?string;
+    public function getMollieCustomerId(): ?string;
 
     /**
      * @param string|null $customerId
      */
-    public function setCustomerId(?string $customerId): void;
+    public function setMollieCustomerId(?string $customerId): void;
 
     /**
      * @return string

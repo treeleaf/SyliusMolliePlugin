@@ -18,13 +18,7 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 interface RecurringPaymentRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @param mixed $orderId
-     *
-     * @return SubscriptionInterface|null
-     */
-    public function findOneByOrderId($orderId): ?RecurringPaymentInterface;
-    /**
-     * @param mixed $orderId
+     * @param mixed $customerId
      *
      * @return SubscriptionInterface|null
      */

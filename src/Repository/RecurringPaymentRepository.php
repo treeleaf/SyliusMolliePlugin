@@ -20,24 +20,10 @@ class RecurringPaymentRepository extends EntityRepository implements RecurringPa
     /**
      * {@inheritdoc}
      */
-    public function findOneByOrderId($orderId): ?RecurringPaymentInterface
-    {
-        return $this->createQueryBuilder('r')
-            ->where('r.order = :orderId')
-            ->setParameter('orderId', $orderId)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function findOneByCustomerId($customerId): ?RecurringPaymentInterface
     {
         return $this->createQueryBuilder('r')
-            ->innerJoin('r.order', 'o', 'WITH', 'r.order_id = o.id')
-            ->innerJoin('o.customer', 'c', 'WITH', 'o.customer_id = c.id')
+            ->innerJoin('r.customer', 'c')
             ->where('c.id = :customerId')
             ->setParameter('customerId', $customerId)
             ->getQuery()

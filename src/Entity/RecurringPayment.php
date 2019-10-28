@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusMolliePlugin\Entity;
 
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 
 class RecurringPayment implements RecurringPaymentInterface
 {
@@ -22,14 +22,14 @@ class RecurringPayment implements RecurringPaymentInterface
     protected $id;
 
     /**
-     * @var OrderInterface
+     * @var CustomerInterface|null
      */
-    protected $order;
+    protected $customer;
 
     /**
      * @var string|null
      */
-    protected $customerId;
+    protected $mollieCustomerId;
 
     /**
      * @var string
@@ -42,22 +42,6 @@ class RecurringPayment implements RecurringPaymentInterface
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getOrder(): OrderInterface
-    {
-        return $this->order;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOrder(OrderInterface $order): void
-    {
-        $this->order = $order;
     }
 
     /**
@@ -79,16 +63,32 @@ class RecurringPayment implements RecurringPaymentInterface
     /**
      * {@inheritdoc}
      */
-    public function getCustomerId(): ?string
+    public function getCustomer(): ?CustomerInterface
     {
-        return $this->customerId;
+        return $this->customer;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setCustomerId(?string $customerId): void
+    public function setCustomer(?CustomerInterface $customer): void
     {
-        $this->customerId = $customerId;
+        $this->customer = $customer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMollieCustomerId(): ?string
+    {
+        return $this->mollieCustomerId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMollieCustomerId(?string $mollieCustomerId): void
+    {
+        $this->mollieCustomerId = $mollieCustomerId;
     }
 }

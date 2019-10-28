@@ -90,8 +90,8 @@ final class CreateRecurringPaymentAction extends BaseApiAwareAction implements A
         /** @var OrderInterface $order */
         $order = $this->orderRepository->find($model['metadata']['order_id']);
 
-        $recurringPayment->setCustomerId($model['customer_mollie_id']);
-        $recurringPayment->setOrder($order);
+        $recurringPayment->setMollieCustomerId($model['customer_mollie_id']);
+        $recurringPayment->setCustomer($order->getCustomer());
 
         $this->recurringPaymentManager->persist($recurringPayment);
     }

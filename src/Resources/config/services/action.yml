@@ -64,7 +64,7 @@ services:
         arguments:
             - "@bitbag_sylius_mollie_plugin.factory.recurring_payment"
             - "@bitbag_sylius_mollie_plugin.manager.recurring_payment"
-            - "@sylius.repository.order"
+            - "@sylius.repository.customer"
         tags:
             - { name: payum.action, factory: mollie, alias: payum.action.api.create_recurring_payment }
 
