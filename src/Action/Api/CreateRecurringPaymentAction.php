@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusMolliePlugin\Action\Api;
 
 use BitBag\SyliusMolliePlugin\Entity\RecurringPaymentInterface;
+use BitBag\SyliusMolliePlugin\Repository\RecurringPaymentRepositoryInterface;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringPayment;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringRecurringPayment;
 use BitBag\SyliusMolliePlugin\Request\StateMachine\StatusRecurringRecurringPayment;
@@ -51,6 +52,11 @@ final class CreateRecurringPaymentAction extends BaseApiAwareAction implements A
     private $orderRepository;
 
     /**
+     * @var RecurringPaymentRepositoryInterface
+     */
+    private $recurringPaymentRepository;
+
+    /**
      * @param FactoryInterface $recurringPaymentFactory
      * @param EntityManagerInterface $recurringPaymentManager
      * @param SateMachineFactoryInterface $recurringPaymentSateMachineFactory
@@ -59,11 +65,13 @@ final class CreateRecurringPaymentAction extends BaseApiAwareAction implements A
     public function __construct(
         FactoryInterface $recurringPaymentFactory,
         EntityManagerInterface $recurringPaymentManager,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        RecurringPaymentRepositoryInterface $recurringPaymentRepository
     ) {
         $this->recurringPaymentFactory = $recurringPaymentFactory;
         $this->recurringPaymentManager = $recurringPaymentManager;
         $this->orderRepository = $orderRepository;
+        $this->recurringPaymentRepository = $recurringPaymentRepository;
     }
 
     /**
@@ -84,14 +92,18 @@ final class CreateRecurringPaymentAction extends BaseApiAwareAction implements A
         /** @var Customer $customer */
         $customer = $this->mollieApiClient->customers->get($model['customer_mollie_id']);
 
-        /** @var RecurringPaymentInterface $recurringPayment */
-        $recurringPayment = $this->recurringPaymentFactory->createNew();
-
         /** @var OrderInterface $order */
         $order = $this->orderRepository->find($model['metadata']['order_id']);
 
+        /** @var RecurringPaymentInterface $recurringPayment */
+        $recurringPayment = $this->recurringPaymentRepository->findOneBy(['customer' => $order->getCustomer()]);
+        if (!$recurringPayment) {
+            $recurringPayment = $this->recurringPaymentFactory->createNew();
+            $recurringPayment->setCustomer($order->getCustomer());
+        }
+
         $recurringPayment->setMollieCustomerId($model['customer_mollie_id']);
-        $recurringPayment->setCustomer($order->getCustomer());
+        $recurringPayment->setState(RecurringPaymentInterface::STATE_NEW);
 
         $this->recurringPaymentManager->persist($recurringPayment);
     }
