@@ -52,6 +52,10 @@ final class MollieGatewayFactory extends GatewayFactory
                 $mollieApiClient->addVersionString('Sylius/' .  Kernel::VERSION);
                 $mollieApiClient->addVersionString('BitBagSyliusMolliePlugin/' . $mollieApiClient->getVersion());
 
+                if (isset($config['initiate_recurring_payment'])) {
+                    $mollieApiClient->setInitiateRecurringPayment($config['initiate_recurring_payment'] === 'yes');
+                }
+
                 return $mollieApiClient;
             };
         }

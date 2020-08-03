@@ -16,6 +16,8 @@ use BitBag\SyliusMolliePlugin\Action\Api\BaseApiAwareAction;
 use BitBag\SyliusMolliePlugin\Payments\PaymentTerms\Options;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateOrder;
 use BitBag\SyliusMolliePlugin\Request\Api\CreatePayment;
+use BitBag\SyliusMolliePlugin\Request\Api\CreateCustomer;
+use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringPayment;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringSubscription;
 use BitBag\SyliusMolliePlugin\Request\Api\CreateSepaMandate;
 use Payum\Core\Bridge\Spl\ArrayObject;
@@ -82,6 +84,18 @@ final class CaptureAction extends BaseApiAwareAction implements CaptureActionInt
             $metadata = $details['metadata'];
             $metadata['refund_token'] = $refundToken->getHash();
             $details['metadata'] = $metadata;
+
+            if ($this->mollieApiClient->initiateRecurringPayment()) {
+                $this->gateway->execute(new CreateCustomer($details));
+
+                if (isset($details['customer_mollie_id'])) {
+                    $details['initiate_recurring_payment'] = true;
+                    $details['sequenceType'] = 'first';
+                    $details['customerId'] = $details['customer_mollie_id'];
+
+                    $this->gateway->execute(new CreateRecurringPayment($details));
+                }
+            }
 
             if (isset($details['metadata']['methodType']) && $details['metadata']['methodType'] === Options::PAYMENT_API) {
                 $this->gateway->execute(new CreatePayment($details));

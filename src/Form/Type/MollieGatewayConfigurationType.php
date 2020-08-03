@@ -90,6 +90,14 @@ final class MollieGatewayConfigurationType extends AbstractType
             ->add('components', CheckboxType::class, [
                 'label' => 'bitbag_sylius_mollie_plugin.ui.enable_components',
             ])
+            ->add('initiate_recurring_payment', ChoiceType::class, [
+                'label' => 'bitbag_sylius_mollie_plugin.ui.initiate_recurring_payment',
+                'required' => true,
+                'choices' => [
+                    'bitbag_sylius_mollie_plugin.ui.no_choice' => 'no',
+                    'bitbag_sylius_mollie_plugin.ui.yes_choice' => 'yes',
+                ],
+            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $data = $event->getData();
 

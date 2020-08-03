@@ -5,3 +5,4 @@ imports:
     - { resource: "@BitBagSyliusMolliePlugin/Resources/config/resources/mollie_method_image.yaml" }
     - { resource: "@BitBagSyliusMolliePlugin/Resources/config/resources/mollie_logger.yaml" }
     - { resource: "@SyliusRefundPlugin/Resources/config/app/config.yml" }
+    - { resource: "@BitBagSyliusMolliePlugin/Resources/config/resources/recurringPayment.yaml" }

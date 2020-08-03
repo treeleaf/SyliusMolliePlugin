@@ -61,5 +61,8 @@ bitbag_sylius_mollie_plugin:
         shipment:
             units: 'Units'
             tracking_code: 'Tracking Code'
+        initiate_recurring_payment: Initiate recurring payment
+        yes_choice: Yes
+        no_choice: No
     subscription:
         cancel: Subscription has been successfully canceled.

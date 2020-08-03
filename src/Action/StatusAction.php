@@ -17,6 +17,7 @@ use BitBag\SyliusMolliePlugin\Logger\MollieLoggerActionInterface;
 use BitBag\SyliusMolliePlugin\Refund\OrderRefundInterface;
 use BitBag\SyliusMolliePlugin\Refund\PaymentRefundInterface;
 use Mollie\Api\Exceptions\ApiException;
+use BitBag\SyliusMolliePlugin\Request\Api\CreateRecurringPayment;
 use Mollie\Api\Resources\Customer;
 use Mollie\Api\Resources\Subscription;
 use Mollie\Api\Types\PaymentStatus;

@@ -26,12 +26,17 @@ class MollieApiClient extends BaseMollieApiClient
     /** @var string */
     protected $version;
 
+    /** @var bool */
+    protected $initiateRecurringPayment = false;
+
     public function getVersion(): string
     {
         return BitBagSyliusMolliePlugin::VERSION;
     }
 
-    /** @param array $config */
+    /**
+     * @param array $config
+     */
     public function setConfig(array $config): void
     {
         $this->config = $config;
@@ -50,5 +55,15 @@ class MollieApiClient extends BaseMollieApiClient
     public function isRecurringSubscription(): bool
     {
         return $this->isRecurringSubscription;
+    }
+
+    public function initiateRecurringPayment(): bool
+    {
+        return $this->initiateRecurringPayment;
+    }
+
+    public function setInitiateRecurringPayment(bool $initiateRecurringPayment): void
+    {
+        $this->initiateRecurringPayment = $initiateRecurringPayment;
     }
 }

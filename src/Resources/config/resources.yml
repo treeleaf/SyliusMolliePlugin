@@ -1,0 +1,3 @@
+imports:
+    - { resource: "@BitBagSyliusMolliePlugin/Resources/config/resources/subscription.yml" }
+    - { resource: "@BitBagSyliusMolliePlugin/Resources/config/resources/recurringPayment.yml" }
